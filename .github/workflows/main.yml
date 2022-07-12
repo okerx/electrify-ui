@@ -20,3 +20,4 @@ jobs:
           cache: 'yarn'
       - run: yarn
       - run: yarn test:unit:ci
+      - run:  npx serverless@2.72.2
