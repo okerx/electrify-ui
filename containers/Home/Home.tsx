@@ -72,7 +72,7 @@ const Home = ({ locations, pagination, sort }: HomeProps) => {
     <div>
       <S.HomeHeader>
         <Typography variant="h3" as="h2">
-          Charging Locations
+          Charging Locations XX
         </Typography>
         <S.AddLocationButtonWrapper>
           <Button
