@@ -12,11 +12,12 @@ const palette: Theme['palette'] = {
     disabled: 'rgba(0, 0, 0, 0.38)',
     hint: 'rgba(0, 0, 0, 0.38)',
   },
+  divider: 'rgb(224, 224, 224)',
   primary: {
     main: '#ffda39',
     light: '#ffde4d',
     dark: '#e6bb00',
-    contrastText: '#4a4a49',
+    contrastText: '#000000',
   },
   secondary: {
     main: '#395eff',

@@ -1,4 +1,4 @@
-import { DetailedHTMLProps, ElementType, HTMLAttributes } from 'react';
+import { CSSProperties, ElementType, HTMLAttributes } from 'react';
 
 export type TypographyVariant =
   | 'h1'
@@ -22,9 +22,11 @@ export type TypographySupportedTags =
   | 'span'
   | 'p';
 
-export interface TypographyProps
-  extends DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement> {
+export interface TypographyProps extends HTMLAttributes<HTMLElement> {
   variant?: TypographyVariant;
   component?: ElementType<any>;
   paragraph?: boolean;
+  fontWeight?: CSSProperties['fontWeight'];
+  color?: CSSProperties['color'];
+  as?: ElementType;
 }

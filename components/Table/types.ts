@@ -5,23 +5,23 @@ export interface MinTableItem {
 }
 
 export type TableHeaders<T extends MinTableItem = any> = Record<
-  keyof T,
+  keyof T | string,
   { title: string; sortable?: boolean }
 >;
 
 export type CustomRenderers<T extends MinTableItem = any> = Partial<
-  Record<keyof T, (it: T) => React.ReactNode>
+  Record<keyof T | string, (it: T) => React.ReactNode>
 >;
 
-export type TableSort<T extends MinTableItem = any> = {
-  by: keyof T;
+export type TableSort = {
+  by: string;
   type: 'asc' | 'desc';
 };
 
 export type TablePagination = {
-  page: number;
-  perPage: number;
-  total: number;
+  page: string;
+  perPage: string;
+  total?: string;
 };
 
 export interface TableProps<T extends MinTableItem>
@@ -29,10 +29,10 @@ export interface TableProps<T extends MinTableItem>
   items: T[];
   headers: TableHeaders<T>;
   customRenderers?: CustomRenderers<T>;
-  sort?: TableSort<T>;
+  sort?: TableSort;
   pagination?: TablePagination;
   loading?: boolean;
   onSort?: (s: TableSort) => void;
-  onPagination?: (p: TablePagination) => void;
+  onPagination?: (p: { page: string; perPage: string }) => void;
   onRowClick?: (it: T) => void;
 }

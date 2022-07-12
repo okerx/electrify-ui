@@ -30,6 +30,7 @@ export interface Palette {
     disabled: string;
     hint: string;
   };
+  divider: string;
   primary: PaletteColor;
   secondary: PaletteColor;
   error: PaletteColor;

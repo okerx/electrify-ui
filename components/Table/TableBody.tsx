@@ -40,7 +40,11 @@ const TableBody = ({
     );
   }
 
-  return <S.StyledTableBody>{items.map(renderRow)}</S.StyledTableBody>;
+  return (
+    <S.StyledTableBody $clickableRow={!!onRowClick}>
+      {items.map(renderRow)}
+    </S.StyledTableBody>
+  );
 };
 
 export default TableBody;

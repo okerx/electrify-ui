@@ -1,4 +1,5 @@
 import { SelectHTMLAttributes } from 'react';
+import { CommonColorVariants } from '@/theme/types';
 
 export interface SelectOption {
   title: string;
@@ -6,10 +7,11 @@ export interface SelectOption {
 }
 
 export interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
-  options: SelectOption[];
+  options: SelectOption[] | string[];
   label?: string;
   error?: boolean;
   errorMessage?: string;
   helperText?: string;
   hideDetails?: boolean;
+  color?: CommonColorVariants;
 }

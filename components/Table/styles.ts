@@ -1,10 +1,11 @@
 import styled from '@emotion/styled';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export const TableMainWrapper = styled('div')(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
-  border: '1px solid rgb(224, 224, 224)',
+  border: '1px solid',
+  borderColor: theme.palette.divider,
   borderRadius: '7px',
-  margin: '1rem',
 }));
 
 export const TableWrapper = styled('div')({
@@ -19,7 +20,6 @@ export const StyledTable = styled('table')({
   overflow: 'hidden',
 
   tr: {
-    borderBottom: '1px solid #e0e0e0',
     'td, th': {
       textOverflow: 'ellipsis',
       padding: '0 56px 0 0',
@@ -30,36 +30,41 @@ export const StyledTable = styled('table')({
   },
 });
 
-export const StyledTableHead = styled('thead')({
+export const StyledTableHead = styled('thead')(({ theme }) => ({
   tr: {
     height: '64px',
     padding: '0 24px',
+    borderBottom: '1px solid',
+    borderBottomColor: theme.palette.divider,
     th: {
-      color: 'rgba(0, 0, 0, .54)',
+      color: theme.palette.text.secondary,
       fontSize: '12px',
       fontWeight: 500,
       textAlign: 'left',
       verticalAlign: 'middle',
-      '.material-icons': {
-        fontSize: '18px',
-        verticalAlign: 'middle',
-        paddingRight: '8px',
+
+      '& > button:hover svg': { opacity: '1' },
+    },
+  },
+}));
+
+export const StyledTableBody = styled('tbody')<{ $clickableRow: boolean }>(
+  ({ theme, $clickableRow }) => ({
+    tr: {
+      height: '48px',
+      cursor: $clickableRow ? 'pointer' : 'default',
+      '&:not(:last-of-type)': {
+        borderBottom: '1px solid',
+        borderBottomColor: theme.palette.divider,
+      },
+      '&:hover': { background: '#eee' },
+      td: {
+        color: theme.palette.text.primary,
+        fontWeight: 500,
       },
     },
-  },
-});
-
-export const StyledTableBody = styled('tbody')({
-  tr: {
-    height: '48px',
-    cursor: 'pointer',
-    '&:hover': { background: '#eee' },
-    td: {
-      color: 'rgba(0, 0, 0, .87)',
-      fontWeight: 500,
-    },
-  },
-});
+  }),
+);
 
 export const StyledTableFooter = styled('footer')({
   width: '100%',
@@ -74,7 +79,7 @@ export const StyledTableFooter = styled('footer')({
   },
 });
 
-export const TableFooterNextPrev = styled('div')({
+export const TableFooterNextPrev = styled('div')(({ theme }) => ({
   '& > button': {
     padding: '0.5rem',
     color: 'rgba(0, 0, 0, .87)',
@@ -84,7 +89,11 @@ export const TableFooterNextPrev = styled('div')({
     },
 
     '&:disabled': {
-      color: 'rgb(224, 224, 224)',
+      color: theme.palette.text.disabled,
     },
   },
+}));
+
+export const SortHoverIcon = styled(FontAwesomeIcon)({
+  opacity: '0',
 });

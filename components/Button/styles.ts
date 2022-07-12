@@ -9,6 +9,13 @@ export const StyledButton = styled('button')<{
   size: ButtonSize;
   $loading: boolean;
 }>(({ theme, $color, variant, size, $loading }) => {
+  if (variant === 'text') {
+    return {
+      ...theme.typography.button,
+      color: theme.palette[$color].main,
+    };
+  }
+
   const commonStyles = {
     border: `1px solid ${theme.palette[$color].main}`,
     borderRadius: '4px',

@@ -1,66 +1,85 @@
 import styled from '@emotion/styled';
+import { CommonColorVariants } from '@/theme/types';
 
-export const StyledSelect = styled('div')<{ $error: boolean }>(
-  ({ theme, $error }) => {
-    const mainColor = $error ? theme.palette.error.main : 'rgba(0, 0, 0, 0.23)';
+export const StyledSelect = styled('div')<{
+  $error: boolean;
+  $color: CommonColorVariants;
+  $withLabel: boolean;
+}>(({ theme, $error, $color, $withLabel }) => {
+  const mainColor = $error ? theme.palette.error.main : 'rgba(0, 0, 0, 0.23)';
 
-    const focusColor = $error
-      ? theme.palette.error.main
-      : theme.palette.primary.main;
+  const focusColor = $error
+    ? theme.palette.error.main
+    : theme.palette[$color].main;
 
-    return {
-      display: 'inline-block',
-
-      label: {
-        position: 'absolute',
-        fontSize: '1rem',
-        left: '0',
-        top: '1%',
-        transform: 'translateY(-50%) scale(.7)',
-        color: mainColor,
-        padding: '0 0.3rem',
-        margin: '0 0.5rem',
-        transition: '.1s ease-out',
-        transformOrigin: 'left',
-        pointerEvents: 'none',
-      },
-
-      select: {
-        fontSize: '1rem',
-        outline: 'none',
+  const withLabelStyles: any = $withLabel
+    ? {
+        appearance: 'none',
+        padding: '1rem 0.7rem 0.2rem',
+        background: 'transparent',
+        backgroundImage:
+          "url(\"data:image/svg+xml;utf8,<svg fill='rgba(0, 0, 0, 0.6)' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>\")",
+        backgroundRepeat: 'no-repeat',
+        backgroundPositionX: 'calc(100% - 0.3rem)',
+        backgroundPositionY: '12px',
         height: '46px',
-        border: `1px solid ${mainColor}`,
-        backgroundColor: theme.palette.background.paper,
-        borderRadius: '5px',
-        color: 'rgba(0, 0, 0, 0.7)',
-        transition:
-          'color 200ms cubic-bezier(0, 0, 0.2, 1) 0ms,' +
-          'transform 200ms cubic-bezier(0, 0, 0.2, 1) 0ms,' +
-          'max-width 200ms cubic-bezier(0, 0, 0.2, 1) 0ms',
+      }
+    : {};
 
-        '&:hover:enabled': !$error && {
-          borderColor: 'rgba(0, 0, 0, 0.87)',
-        },
+  return {
+    display: 'inline-block',
+    position: 'relative',
 
-        '&:focus': {
-          borderColor: focusColor,
-        },
+    label: {
+      position: 'absolute',
+      fontSize: '1rem',
+      left: '0',
+      top: '1%',
+      transform: 'translateY(-50%) scale(.7)',
+      color: mainColor,
+      padding: '0 0.3rem',
+      margin: '0 0.5rem',
+      transition: '.1s ease-out',
+      transformOrigin: 'left',
+      pointerEvents: 'none',
+    },
 
-        '&::placeholder': {
-          color: 'transparent',
-        },
+    select: {
+      height: '35px',
+      ...withLabelStyles,
+      fontSize: '1rem',
+      outline: 'none',
+      border: `1px solid ${mainColor}`,
+      backgroundColor: theme.palette.background.paper,
+      borderRadius: '5px',
+      color: 'rgba(0, 0, 0, 0.7)',
+      transition:
+        'color 200ms cubic-bezier(0, 0, 0.2, 1) 0ms,' +
+        'transform 200ms cubic-bezier(0, 0, 0.2, 1) 0ms,' +
+        'max-width 200ms cubic-bezier(0, 0, 0.2, 1) 0ms',
+
+      '&:hover:enabled:not(:focus)': !$error && {
+        borderColor: 'rgba(0, 0, 0, 0.87)',
       },
 
-      'select:not(:placeholder-shown) + label': {
-        top: '20%',
+      '&:focus': {
+        borderColor: focusColor,
       },
 
-      'select:focus + label': {
-        color: focusColor,
+      '&::placeholder': {
+        color: 'transparent',
       },
-    };
-  },
-);
+    },
+
+    'select:not(:placeholder-shown) + label': {
+      top: '20%',
+    },
+
+    'select:focus + label': {
+      color: focusColor,
+    },
+  };
+});
 
 export const SelectWrapper = styled('div')({
   position: 'relative',

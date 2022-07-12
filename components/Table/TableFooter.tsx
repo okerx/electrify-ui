@@ -13,19 +13,19 @@ const TableFooter = ({
   loading,
 }: {
   pagination?: TablePagination;
-  onPagination?: (p: TablePagination) => void;
+  onPagination?: (p: { perPage: string; page: string }) => void;
   loading?: boolean;
 }) => {
   const pageStart = useMemo(() => {
     if (pagination) {
-      return pagination.perPage * (pagination.page - 1) + 1;
+      return parseInt(pagination.perPage) * (parseInt(pagination.page) - 1) + 1;
     }
   }, [pagination]);
 
   const pageEnd = useMemo(() => {
     if (pagination) {
-      const count = pagination.perPage * pagination.page;
-      if (count <= pagination.total) return count;
+      const count = parseInt(pagination.perPage) * parseInt(pagination.page);
+      if (pagination.total && count <= parseInt(pagination.total)) return count;
       return pagination.total;
     }
   }, [pagination]);
@@ -35,26 +35,32 @@ const TableFooter = ({
   }, [pageEnd, pagination]);
 
   const isPrevDisabled = useMemo(() => {
-    return pagination?.page === 1;
+    if (pagination) return parseInt(pagination?.page) === 1;
   }, [pagination]);
 
   const handleNextPage: ReactEventHandler<HTMLButtonElement> = () => {
     if (pagination) {
-      onPagination?.({ ...pagination, page: pagination.page + 1 });
+      onPagination?.({
+        perPage: pagination.perPage,
+        page: pagination.page + 1,
+      });
     }
   };
 
   const handlePrevPage: ReactEventHandler<HTMLButtonElement> = () => {
     if (pagination) {
-      onPagination?.({ ...pagination, page: pagination.page - 1 });
+      onPagination?.({
+        perPage: pagination.perPage,
+        page: pagination ? String(parseInt(pagination.page) - 1) : '0',
+      });
     }
   };
 
   const handlePerPage: ReactEventHandler<HTMLSelectElement> = e => {
     if (pagination) {
       onPagination?.({
-        ...pagination,
-        perPage: parseInt(e.currentTarget.value, 10),
+        page: pagination.page,
+        perPage: e.currentTarget.value,
       });
     }
   };
@@ -63,15 +69,18 @@ const TableFooter = ({
     <S.StyledTableFooter>
       {pagination && (
         <>
-          <div>
-            <Spinner size={30} />
-          </div>
+          {loading && (
+            <div>
+              <Spinner size={30} />
+            </div>
+          )}
           <div>
             Items per page{' '}
             <Select
               hideDetails
               onChange={handlePerPage}
               disabled={loading}
+              color="secondary"
               options={[
                 {
                   value: 10,

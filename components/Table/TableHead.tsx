@@ -17,18 +17,18 @@ const TableHead = ({
   loading?: boolean;
 }) => {
   const renderSortIcon = (header: keyof TableHeaders) => {
-    if (!sort || header !== sort.by) return null;
-    if (sort.type === 'asc') return <FontAwesomeIcon icon={faArrowUp} />;
-    if (sort.type === 'desc') return <FontAwesomeIcon icon={faArrowDown} />;
-    return null;
+    if (sort?.type === 'asc') return <FontAwesomeIcon icon={faArrowUp} />;
+    if (sort?.type === 'desc') return <FontAwesomeIcon icon={faArrowDown} />;
+    return <S.SortHoverIcon icon={faArrowUp} />;
   };
 
   const isSortingDisabled = (sortable?: boolean) =>
     typeof sortable === 'boolean' ? !sortable : false;
 
   const handleSort = (header: keyof TableHeaders) => {
-    if (!sort || sort.type === 'desc') onSort?.({ type: 'asc', by: header });
-    else onSort?.({ type: 'desc', by: header });
+    if (!sort || sort.type === 'desc')
+      onSort?.({ type: 'asc', by: String(header) });
+    else onSort?.({ type: 'desc', by: String(header) });
   };
 
   return (
@@ -36,14 +36,18 @@ const TableHead = ({
       <tr>
         {objectKeys(headers).map(key => (
           <th id={String(key)} key={String(key)}>
-            <button
-              disabled={loading || isSortingDisabled(headers[key].sortable)}
-              onClick={() => {
-                handleSort(key);
-              }}
-            >
-              {headers[key].title} {renderSortIcon(key)}
-            </button>
+            {!isSortingDisabled(headers[key].sortable) ? (
+              <button
+                disabled={loading}
+                onClick={() => {
+                  handleSort(key);
+                }}
+              >
+                {headers[key].title} {renderSortIcon(key)}
+              </button>
+            ) : (
+              headers[key].title
+            )}
           </th>
         ))}
       </tr>

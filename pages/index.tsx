@@ -1,118 +1,51 @@
-import type { NextPage } from 'next';
+import { ReactElement } from 'react';
 import Head from 'next/head';
-import Table from '@/components/Table';
-import { TablePagination, TableSort } from '@/components/Table/types';
-import Select from '@/components/Select';
-import TextField from '@/components/TextField';
-import Modal from '@/components/Modal';
-import { useState } from 'react';
-import Button from '@/components/Button';
+import DashboardLayout from '@/layouts/DashboardLayout';
+import { NextPageWithLayout } from '@/pages/_app';
+import Home from '@/containers/Home';
+import { useTheme } from '@emotion/react';
+import { APIPagination, APISort, ChargingLocation } from '@/api/types';
 
-interface ChargingLocation {
-  id: PrimitiveType;
-  name?: string;
-  location?: number;
-  chargers?: number;
-  postalCode?: number | string | null;
-  lastUpdated?: string;
-  country?: string;
+interface IndexPageProps {
+  locations: ChargingLocation[];
+  pagination: APIPagination['Response'];
+  sort?: APISort;
 }
 
-const Home: NextPage = () => {
-  const [modalOpen, setModalOpen] = useState(false);
-
-  const onTablePagination = (p: TablePagination) => {
-    console.log('table pagination', p);
-  };
-
-  const onTableSort = (s: TableSort) => {
-    console.log('table sort', s);
-  };
-
-  const onTableRowClick = (it: ChargingLocation) => {
-    console.log('table row click', it);
-  };
+const IndexPage: NextPageWithLayout<IndexPageProps> = ({
+  locations,
+  sort,
+  pagination,
+}) => {
+  const theme = useTheme();
 
   return (
     <>
       <Head>
-        <title>Charging Locations</title>
-        <meta name="description" content="Find charging locations" />
-        <link rel="icon" href="/favicon.ico" />
+        <title>Electrify - Charging Locations</title>
       </Head>
 
-      <div>
-        <Table
-          loading
-          pagination={{
-            page: 3,
-            perPage: 15,
-            total: 44,
-          }}
-          sort={{
-            by: 'name',
-            type: 'asc',
-          }}
-          items={locations}
-          headers={{
-            id: { title: 'ID' },
-            name: { title: 'Name' },
-            chargers: { title: 'Chargers' },
-            location: { title: 'Location' },
-            postalCode: { title: 'Postal Code' },
-            country: { title: 'Country', sortable: false },
-            lastUpdated: { title: 'Last Updated' },
-          }}
-          onPagination={onTablePagination}
-          onSort={onTableSort}
-          onRowClick={onTableRowClick}
-        />
-        <div>
-          <div>
-            <Modal
-              open={modalOpen}
-              setOpen={o => {
-                setModalOpen(o);
-              }}
-              title="Modal Title"
-            >
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                Accusantium, fugiat, quo! Beatae delectus dicta ducimus ea id
-                laborum, libero magnam neque nulla, quas sed ullam vel! Amet
-                dolore illum optio?
-              </p>
-            </Modal>
-          </div>
-          <Button
-            onClick={() => {
-              setModalOpen(true);
-            }}
-          >
-            Open Modal
-          </Button>
-          <TextField disabled label="Text" helperText="xxx" />
-          <Select
-            hideDetails
-            options={[
-              {
-                value: 'option 1',
-                title: 'Option One',
-              },
-              {
-                value: 'option 2',
-                title: 'Option Two',
-              },
-              {
-                value: 'option 3',
-                title: 'Option Three',
-              },
-            ]}
-          />
-        </div>
-      </div>
+      <Home pagination={pagination} sort={sort} locations={locations} />
     </>
   );
+};
+
+export const getServerSideProps = () => {
+  return {
+    props: {
+      locations,
+      pagination: {
+        page: 1,
+        perPage: 10,
+        total: 45,
+      },
+      sort: null,
+    },
+  };
+};
+
+IndexPage.getLayout = function getLayout(page: ReactElement) {
+  return <DashboardLayout>{page}</DashboardLayout>;
 };
 
 const locations: ChargingLocation[] = [
@@ -120,7 +53,7 @@ const locations: ChargingLocation[] = [
     id: 665,
     name: 'Lillian',
     location: 727905,
-    chargers: 34,
+    chargers: [],
     postalCode: '601 81',
     country: 'SE',
     lastUpdated: '11/19/2021',
@@ -129,8 +62,8 @@ const locations: ChargingLocation[] = [
     id: 520,
     name: 'Fuller',
     location: 425925,
-    chargers: 2,
-    postalCode: null,
+    chargers: [],
+    postalCode: '123DD',
     country: 'CN',
     lastUpdated: '2/15/2022',
   },
@@ -138,8 +71,8 @@ const locations: ChargingLocation[] = [
     id: 289,
     name: 'Sheridan',
     location: 350059,
-    chargers: 4,
-    postalCode: null,
+    chargers: [],
+    postalCode: '123H',
     country: 'JO',
     lastUpdated: '11/28/2021',
   },
@@ -147,7 +80,7 @@ const locations: ChargingLocation[] = [
     id: 107,
     name: 'Lighthouse Bay',
     location: 802073,
-    chargers: 18,
+    chargers: [],
     postalCode: '37665',
     country: 'US',
     lastUpdated: '12/6/2021',
@@ -156,7 +89,7 @@ const locations: ChargingLocation[] = [
     id: 72,
     name: 'Mallory',
     location: 358213,
-    chargers: 24,
+    chargers: [],
     postalCode: '70183',
     country: 'US',
     lastUpdated: '8/14/2021',
@@ -165,7 +98,7 @@ const locations: ChargingLocation[] = [
     id: 729,
     name: 'Veith',
     location: 746665,
-    chargers: 13,
+    chargers: [],
     postalCode: '4750-549',
     country: 'PT',
     lastUpdated: '5/7/2022',
@@ -174,11 +107,11 @@ const locations: ChargingLocation[] = [
     id: 74,
     name: 'North',
     location: 428616,
-    chargers: 14,
+    chargers: [],
     postalCode: '26950-000',
     country: 'BR',
     lastUpdated: '1/24/2022',
   },
 ];
 
-export default Home;
+export default IndexPage;

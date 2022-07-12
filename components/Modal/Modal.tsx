@@ -1,4 +1,4 @@
-import { forwardRef, MouseEventHandler } from 'react';
+import { forwardRef, MouseEventHandler, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { CSSTransition } from 'react-transition-group';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -9,6 +9,7 @@ import * as S from './styles';
 
 const Modal = forwardRef<HTMLDivElement, ModalProps>(
   ({ title, open, setOpen, children, maxWidth = 600, ...props }, ref) => {
+    const nodeRef = useRef(null);
     const handleClose: MouseEventHandler = () => {
       setOpen(false);
     };
@@ -20,8 +21,14 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(
     if (typeof window === 'undefined') return null;
 
     return createPortal(
-      <CSSTransition in={open} timeout={200} classNames="modal" unmountOnExit>
-        <S.ModalWrapper onClick={handleClose}>
+      <CSSTransition
+        nodeRef={nodeRef}
+        in={open}
+        timeout={200}
+        classNames="modal"
+        unmountOnExit
+      >
+        <S.ModalWrapper onClick={handleClose} ref={nodeRef}>
           <S.StyledModal
             ref={ref}
             onClick={stopPropagation}

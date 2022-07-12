@@ -9,6 +9,7 @@ const Select = forwardRef<HTMLSelectElement, SelectProps>(
       label,
       hideDetails,
       error = false,
+      color = 'primary',
       helperText,
       id,
       errorMessage,
@@ -20,14 +21,19 @@ const Select = forwardRef<HTMLSelectElement, SelectProps>(
     const inputId = id || defaultInputId;
 
     return (
-      <S.StyledSelect $error={error}>
+      <S.StyledSelect $error={error} $color={color} $withLabel={!!label}>
         <S.SelectWrapper>
-          <select ref={ref} {...props}>
-            {options.map(({ value, title }) => (
-              <option key={String(value)} value={String(value)}>
-                {title}
-              </option>
-            ))}
+          <select ref={ref} id={inputId} {...props}>
+            {options.map(option => {
+              const title = typeof option === 'string' ? option : option.title;
+              const value = typeof option === 'string' ? option : option.value;
+
+              return (
+                <option key={String(value)} value={String(value)}>
+                  {title}
+                </option>
+              );
+            })}
           </select>
           {label && <label htmlFor={inputId}>{label}</label>}
         </S.SelectWrapper>

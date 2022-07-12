@@ -3,12 +3,24 @@ import { TextFieldProps } from './types';
 import * as S from './styles';
 
 const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
-  ({ id, label, errorMessage, helperText, error = false, ...props }, ref) => {
+  (
+    {
+      id,
+      label,
+      errorMessage,
+      helperText,
+      fullWidth = false,
+      error = false,
+      color = 'primary',
+      ...props
+    },
+    ref,
+  ) => {
     const defaultInputId = useId();
     const inputId = id || defaultInputId;
 
     return (
-      <S.StyledTextField $error={error}>
+      <S.StyledTextField $fullWidth={fullWidth} $error={error} $color={color}>
         <S.TextFieldWrapper>
           <input
             ref={ref}
