@@ -1,1 +1,1 @@
-export { default } from './LocationDetails';
+export {  default } from './LocationDetails';

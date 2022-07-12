@@ -16,11 +16,11 @@ import * as S from './styles';
 import DetailsCardEdit from './DetailsCardEdit';
 import AddOrEditChargerModal from './AddOrEditChargerModal';
 
-interface LocationDetails {
+interface LocationDetailsProps {
   location: ChargingLocation;
 }
 
-export const LocationDetails = ({ location }: LocationDetails) => {
+export const LocationDetails = ({ location }: LocationDetailsProps) => {
   const { palette } = useTheme();
   const [editLocation, setEditLocation] = useState(false);
   const [addChargerModal, setAddChargerModal] = useState(false);
