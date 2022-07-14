@@ -37,3 +37,7 @@ yarn-error.log*
 # IDEs
 /.idea
 .vscode
+
+# Service worker
+/public/sw*.js
+/public/workbox-*.js

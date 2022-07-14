@@ -1,4 +1,5 @@
 import { FieldArray, Form, FormikProvider, getIn, useFormik } from 'formik';
+import { useMutation, useQueryClient } from 'react-query';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons/faPlus';
 import { faTrash } from '@fortawesome/free-solid-svg-icons/faTrash';
@@ -9,23 +10,64 @@ import Typography from '@/components/Typography';
 import Select from '@/components/Select';
 import { AllCountries, ChargerStatusesList, ChargerTypes } from '@/constants';
 import { LocationSchema } from '@/schemas';
+import { createLocation, handleError } from '@/api';
+import {
+  APIError,
+  APIResponse,
+  ChargingLocation,
+  CreateLocationParams,
+} from '@/api/types';
 import * as S from './styles';
+import { useRouter } from 'next/router';
 
 interface AddLocationModalProps
   extends Omit<ModalProps, 'title' | 'children'> {}
 
 const AddLocationModal = ({ open, setOpen }: AddLocationModalProps) => {
-  const formik = useFormik({
+  const queryClient = useQueryClient();
+  const router = useRouter();
+
+  const mutation = useMutation<
+    ChargingLocation,
+    APIError,
+    CreateLocationParams
+  >(
+    async params => {
+      return await createLocation(params);
+    },
+    {
+      onSuccess: async newLocation => {
+        queryClient.setQueryData<APIResponse<ChargingLocation[]> | undefined>(
+          ['locations', router.query],
+          chargingLocations => {
+            if (chargingLocations) {
+              return {
+                ...chargingLocations,
+                data: [newLocation, ...chargingLocations.data],
+              };
+            }
+
+            return chargingLocations;
+          },
+        );
+      },
+      onError: handleError,
+    },
+  );
+
+  const formik = useFormik<CreateLocationParams>({
     initialValues: {
       name: '',
-      location: '',
+      location: 0,
       postalCode: '',
-      country: 'NL',
+      country: 'NLD',
       chargers: [],
     },
     validationSchema: LocationSchema,
-    onSubmit: values => {
-      console.log(values);
+    onSubmit: async (values, { resetForm }) => {
+      await mutation.mutateAsync(values);
+      resetForm();
+      return setOpen(false);
     },
   });
 
@@ -75,7 +117,7 @@ const AddLocationModal = ({ open, setOpen }: AddLocationModalProps) => {
             />
           </S.FormStack>
 
-          {!!values.chargers.length && (
+          {!!values.chargers?.length && (
             <Typography variant="subtitle2">Chargers</Typography>
           )}
 
@@ -83,7 +125,7 @@ const AddLocationModal = ({ open, setOpen }: AddLocationModalProps) => {
             name="chargers"
             render={({ remove, push }) => (
               <>
-                {values.chargers.map((_, index) => {
+                {values.chargers?.map((_, index) => {
                   return (
                     <S.StyledChargerMiniForm key={index}>
                       <S.ChargerMiniFormCloseButton
@@ -124,11 +166,18 @@ const AddLocationModal = ({ open, setOpen }: AddLocationModalProps) => {
                   type="button"
                   variant="text"
                   onClick={() => {
-                    push({ type: '', status: '', serialNumber: '' });
+                    push({
+                      type: ChargerTypes[0],
+                      status: ChargerStatusesList[0],
+                      serialNumber: '',
+                    });
                   }}
                 >
                   <FontAwesomeIcon icon={faPlus} /> Add
-                  {values.chargers.length > 0 && ' another'} charger
+                  {values.chargers &&
+                    values.chargers.length > 0 &&
+                    ' another'}{' '}
+                  charger
                 </S.AddChargerButton>
               </>
             )}

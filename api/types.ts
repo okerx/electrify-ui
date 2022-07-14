@@ -1,5 +1,7 @@
+import { AxiosError } from 'axios';
+
 export interface ChargingLocation {
-  id: string | number;
+  id: string;
   name?: string;
   location?: number;
   chargers?: Charger[];
@@ -15,8 +17,18 @@ export interface GetLocationsParams {
   perPage?: string;
 }
 
+export type CreateChargerParams = Omit<Charger, 'id' | 'lastUpdated'>;
+
+export interface CreateLocationParams {
+  name?: string;
+  location?: number;
+  postalCode?: string;
+  country?: string;
+  chargers?: Charger[];
+}
+
 export interface Charger {
-  id: string | number;
+  id: string;
   type?: 'HPC' | 'T52' | 'T53C';
   serialNumber?: string;
   status?: 'CONNECTED' | 'NOT_CONNECTED' | 'REMOVED';
@@ -36,8 +48,8 @@ export interface APIPagination {
 }
 
 export interface APISort {
-  by: string;
-  type: 'asc' | 'desc';
+  by?: string;
+  type?: 'asc' | 'desc';
 }
 
 export interface APIResponse<T> {
@@ -45,3 +57,9 @@ export interface APIResponse<T> {
   pagination?: APIPagination['Response'];
   sort?: APISort;
 }
+
+export type APIError = AxiosError<{
+  statusCode: number;
+  message: string[];
+  error: string;
+}>;

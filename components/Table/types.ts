@@ -14,8 +14,8 @@ export type CustomRenderers<T extends MinTableItem = any> = Partial<
 >;
 
 export type TableSort = {
-  by: string;
-  type: 'asc' | 'desc';
+  by?: string;
+  type?: 'asc' | 'desc';
 };
 
 export type TablePagination = {
@@ -33,6 +33,6 @@ export interface TableProps<T extends MinTableItem>
   pagination?: TablePagination;
   loading?: boolean;
   onSort?: (s: TableSort) => void;
-  onPagination?: (p: { page: string; perPage: string }) => void;
+  onPagination?: (p: Omit<TablePagination, 'total'>) => void;
   onRowClick?: (it: T) => void;
 }

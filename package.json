@@ -5,10 +5,15 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:analyze": "ANALYZE=true yarn build",
     "start": "next start",
     "lint": "next lint",
     "test:unit": "jest --watch",
-    "test:unit:ci": "jest --ci"
+    "test:unit:ci": "jest --ci",
+    "cypress": "cypress open",
+    "cypress:headless": "cypress run",
+    "e2e": "start-server-and-test dev http://localhost:3000 cypress",
+    "e2e:headless": "start-server-and-test dev http://localhost:3000 cypress:headless"
   },
   "dependencies": {
     "@emotion/react": "^11.9.3",
@@ -22,7 +27,10 @@
     "dayjs": "^1.11.3",
     "formik": "^2.2.9",
     "next": "12.2.1",
+    "next-compose-plugins": "^2.2.1",
     "next-progress": "^2.2.0",
+    "next-pwa": "^5.5.4",
+    "next-seo": "^5.4.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hot-toast": "^2.2.0",
@@ -32,6 +40,7 @@
   },
   "devDependencies": {
     "@emotion/jest": "^11.9.3",
+    "@next/bundle-analyzer": "^12.2.2",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^14.2.1",
@@ -39,11 +48,13 @@
     "@types/react": "18.0.15",
     "@types/react-dom": "18.0.6",
     "@types/react-transition-group": "^4.4.5",
+    "cypress": "^10.3.0",
     "eslint": "8.19.0",
     "eslint-config-next": "12.2.1",
     "jest": "^28.1.2",
     "jest-environment-jsdom": "^28.1.2",
     "prettier": "^2.7.1",
+    "start-server-and-test": "^1.14.0",
     "typescript": "4.7.4"
   }
 }

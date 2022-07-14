@@ -2,7 +2,9 @@ import { NextPage } from 'next';
 import { ReactElement, ReactNode } from 'react';
 import type { AppProps } from 'next/app';
 import { ThemeProvider } from '@emotion/react';
+import { Toaster } from 'react-hot-toast';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
 import NextProgress from 'next-progress';
 import { config } from '@fortawesome/fontawesome-svg-core';
 import theme, { GlobalStyles } from '@/theme';
@@ -12,6 +14,8 @@ import '@fontsource/open-sans/400.css';
 import '@fontsource/open-sans/500.css';
 import '@fontsource/open-sans/700.css';
 import DefaultLayout from '@/layouts/DefaultLayout';
+import ConfirmProvider, { ConfirmDialog } from '@/providers/ConfirmProvider';
+import HeadTags from '@/components/HeadTags';
 
 /**
  * By default, Fontawesome will automatically add the accompanying CSS
@@ -38,23 +42,20 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 
   return (
     <ThemeProvider theme={theme}>
-      <title>Electrify - Fast EV Chargers</title>
-      <meta name="description" content="Find charging locations" />
-      <link rel="icon" href="/favicon.ico" />
-      <meta name="apple-mobile-web-app-capable" content="yes" />
-      <meta
-        name="apple-mobile-web-app-status-bar-style"
-        content="black-translucent"
-      />
-      <meta name="theme-color" content={theme.palette.primary.main} />
+      <HeadTags />
       <GlobalStyles />
       <NextProgress
         delay={300}
         color={theme.palette.secondary.main}
         options={{ showSpinner: false }}
       />
+      <Toaster position="top-right" />
       <QueryClientProvider client={queryClient}>
-        {getLayout(<Component {...pageProps} />)}
+        <ConfirmProvider>
+          {getLayout(<Component {...pageProps} />)}
+          <ConfirmDialog />
+        </ConfirmProvider>
+        <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </ThemeProvider>
   );

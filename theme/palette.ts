@@ -32,9 +32,9 @@ const palette: Theme['palette'] = {
     contrastText: '#ffffff',
   },
   success: {
-    main: '#4caf50',
-    light: '#81c784',
-    dark: '#388e3c',
+    main: '#3ed625',
+    light: '#65de51',
+    dark: '#32ab1e',
     contrastText: 'rgba(0, 0, 0, 0.87)',
   },
   warning: {

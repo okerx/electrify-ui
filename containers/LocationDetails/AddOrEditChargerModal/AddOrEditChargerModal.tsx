@@ -1,16 +1,26 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import { Form, FormikProvider, getIn, useFormik } from 'formik';
 import Modal, { ModalProps } from '@/components/Modal';
-import { Charger } from '@/api/types';
+import {
+  APIError,
+  Charger,
+  ChargingLocation,
+  CreateChargerParams,
+} from '@/api/types';
 import { ChargerSchema } from '@/schemas';
 import { ChargerStatusesList, ChargerTypes } from '@/constants';
 import Select from '@/components/Select';
 import TextField from '@/components/TextField';
 import Button from '@/components/Button';
 import * as S from './styles';
+import { useMutation, useQueryClient } from 'react-query';
+import { createCharger, handleError, updateCharger } from '@/api';
 
 interface AddOrEditChargerModalProps extends Omit<ModalProps, 'children'> {
   chargerToEdit?: Charger | null;
+  editModel?: boolean;
+  locationId?: string;
 }
 
 const AddOrEditChargerModal = ({
@@ -18,8 +28,61 @@ const AddOrEditChargerModal = ({
   setOpen,
   ref,
   chargerToEdit,
+  locationId,
+  editModel = false,
   ...props
 }: AddOrEditChargerModalProps) => {
+  const queryClient = useQueryClient();
+  const router = useRouter();
+
+  const onCreateSuccess = useCallback(
+    (charger: Charger) => {
+      queryClient.setQueryData<ChargingLocation>(
+        ['locationDetails', router.query.id],
+        data => {
+          return {
+            id: data?.id as string,
+            ...data,
+            chargers: [charger, ...(data?.chargers || [])],
+          };
+        },
+      );
+    },
+    [queryClient, router.query.id],
+  );
+
+  const onUpdateSuccess = useCallback(
+    async (charger: Charger) => {
+      await queryClient.setQueryData<ChargingLocation>(
+        ['locationDetails', router.query.id],
+        data => {
+          return {
+            id: data?.id as string,
+            ...data,
+            chargers: data?.chargers?.map(ch => {
+              if (ch.id === charger.id) {
+                return charger;
+              }
+              return ch;
+            }),
+          };
+        },
+      );
+    },
+    [queryClient, router.query.id],
+  );
+
+  const mutation = useMutation<Charger, APIError, CreateChargerParams, any>(
+    params =>
+      editModel
+        ? updateCharger(chargerToEdit?.id as string, params)
+        : createCharger(locationId as string, params),
+    {
+      onSuccess: editModel ? onUpdateSuccess : onCreateSuccess,
+      onError: handleError,
+    },
+  );
+
   const initialValues: Omit<Charger, 'id'> = {
     type: 'HPC',
     serialNumber: '',
@@ -29,8 +92,10 @@ const AddOrEditChargerModal = ({
   const formik = useFormik({
     initialValues,
     validationSchema: ChargerSchema,
-    onSubmit: () => {
-      //
+    onSubmit: async (values, { resetForm }) => {
+      await mutation.mutateAsync(values);
+      resetForm();
+      return setOpen(false);
     },
   });
 
@@ -83,7 +148,7 @@ const AddOrEditChargerModal = ({
             {...getErrorProps('serialNumber')}
           />
           <S.FormActions>
-            <Button color="secondary" loading={isSubmitting}>
+            <Button type="submit" color="secondary" loading={isSubmitting}>
               Save
             </Button>
           </S.FormActions>

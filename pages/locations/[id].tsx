@@ -4,6 +4,8 @@ import { NextPageWithLayout } from '@/pages/_app';
 import DashboardLayout from '@/layouts/DashboardLayout';
 import { ChargingLocation } from '@/api/types';
 import LocationDetails from '@/containers/LocationDetails';
+import { fetchChargingLocationDetails } from '@/api';
+import { GetServerSideProps } from 'next';
 
 interface LocationDetailsPageProps {
   location: ChargingLocation;
@@ -23,42 +25,18 @@ const LocationDetailsPage: NextPageWithLayout<LocationDetailsPageProps> = ({
   );
 };
 
-export const getServerSideProps = () => {
-  return {
-    props: { location },
-  };
-};
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+  try {
+    const location = await fetchChargingLocationDetails(params?.id as string);
 
-const location = {
-  id: '1231asd',
-  name: 'Fuller',
-  location: 2131,
-  postalCode: '12D 324C',
-  lastUpdated: '10/10/2020',
-  country: 'NL',
-  chargers: [
-    {
-      id: 12,
-      type: 'HPC',
-      serialNumber: 'aaa',
-      status: 'CONNECTED',
-      lastUpdated: '10/10/2020',
-    },
-    {
-      id: 234,
-      type: 'T52',
-      serialNumber: 'bbb',
-      status: 'NOT_CONNECTED',
-      lastUpdated: '10/10/2020',
-    },
-    {
-      id: 214,
-      type: 'T53C',
-      serialNumber: 'ccc',
-      status: 'REMOVED',
-      lastUpdated: '10/10/2020',
-    },
-  ],
+    return {
+      props: { location },
+    };
+  } catch (e) {
+    return {
+      notFound: true,
+    };
+  }
 };
 
 LocationDetailsPage.getLayout = function getLayout(page: ReactElement) {

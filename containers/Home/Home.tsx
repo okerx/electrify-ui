@@ -1,23 +1,21 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
-import toast, { Toaster } from 'react-hot-toast';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons/faPlus';
 import Typography from '@/components/Typography';
 import Button from '@/components/Button';
 import Table from '@/components/Table';
-import { fetchChargingLocations } from '@/api';
-import AddLocationModal from './AddLocationModal';
+import { chargingLocationsQuery, handleError } from '@/api';
+import { $dayjs } from '@/utils';
 import {
   APIPagination,
   APISort,
   ChargingLocation,
   GetLocationsParams,
 } from '@/api/types';
+import AddLocationModal from './AddLocationModal';
 import * as S from './styles';
-
-const showError = (msg: string) => toast.error(msg);
 
 export interface HomeProps {
   locations: ChargingLocation[];
@@ -34,26 +32,31 @@ const Home = ({ locations, pagination, sort }: HomeProps) => {
     page: pagination.page,
   });
 
-  const { data, isLoading } = useQuery(
+  const { data, isLoading, isFetching } = useQuery(
     ['locations', serverParams],
-    fetchChargingLocations,
+    chargingLocationsQuery,
     {
       keepPreviousData: true,
       refetchOnMount: false,
-      onError: () => {
-        showError('Something went wrong!!');
-      },
+      onError: handleError,
       initialData: { data: locations, sort, pagination },
     },
   );
 
-  useEffect(() => {
-    setServerParams({ ...router.query });
-  }, [router.query]);
+  const handleSort = async ({ by, type }: APISort) => {
+    setServerParams({ ...router.query, by, type });
+    await router.push(
+      {
+        pathname: '/',
+        query: { ...router.query, by, type },
+      },
+      undefined,
+      { shallow: true },
+    );
+  };
 
-  const handleServerParamsUpdate = async (
-    params: APISort | APIPagination['Request'],
-  ) => {
+  const handlePagination = async (params: APIPagination['Request']) => {
+    setServerParams({ ...router.query, ...params });
     await router.push(
       {
         pathname: '/',
@@ -72,7 +75,7 @@ const Home = ({ locations, pagination, sort }: HomeProps) => {
     <div>
       <S.HomeHeader>
         <Typography variant="h3" as="h2">
-          Charging Locations XX
+          Charging Locations
         </Typography>
         <S.AddLocationButtonWrapper>
           <Button
@@ -91,10 +94,10 @@ const Home = ({ locations, pagination, sort }: HomeProps) => {
           items={data?.data || []}
           pagination={data?.pagination}
           sort={data?.sort}
-          onPagination={handleServerParamsUpdate}
-          onSort={handleServerParamsUpdate}
+          onPagination={handlePagination}
+          onSort={handleSort}
           onRowClick={navigateToDetails}
-          loading={isLoading}
+          loading={isLoading || isFetching}
           headers={{
             id: { title: 'ID', sortable: false },
             name: { title: 'Name' },
@@ -104,10 +107,14 @@ const Home = ({ locations, pagination, sort }: HomeProps) => {
             lastUpdated: { title: 'lastUpdated' },
             country: { title: 'country' },
           }}
+          customRenderers={{
+            chargers: ({ chargers = [] }) => chargers.length,
+            lastUpdated: ({ lastUpdated }) =>
+              lastUpdated && $dayjs(lastUpdated).fromNow(),
+          }}
         />
       </S.TableWrapper>
 
-      <Toaster position="top-right" />
       <AddLocationModal open={addLocationModal} setOpen={setAddLocationModal} />
     </div>
   );

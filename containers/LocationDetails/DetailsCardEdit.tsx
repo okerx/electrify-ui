@@ -1,25 +1,41 @@
 import { Form, FormikProvider, getIn, useFormik } from 'formik';
-import { ChargingLocation } from '@/api/types';
+import { useMutation, useQueryClient } from 'react-query';
+import { APIError, ChargingLocation, CreateLocationParams } from '@/api/types';
 import TextField from '@/components/TextField';
 import Select from '@/components/Select';
 import Button from '@/components/Button';
 import { AllCountries } from '@/constants';
 import { LocationSchema } from '@/schemas';
+import { handleError, updateChargingLocation } from '@/api';
 import * as S from './styles';
 
 interface DetailsCardEditProps {
-  location: ChargingLocation;
+  location?: ChargingLocation;
   onCancel: () => void;
 }
 
 const DetailsCardEdit = ({ location, onCancel }: DetailsCardEditProps) => {
-  const { chargers, ...initialValues } = location;
+  const { chargers, ...initialValues } = location || {};
+
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation<
+    ChargingLocation,
+    APIError,
+    Omit<CreateLocationParams, 'chargers'>
+  >(params => updateChargingLocation(location?.id as string, params), {
+    onSuccess: data => {
+      queryClient.setQueryData(['locationDetails', data.id], data);
+    },
+    onError: handleError,
+  });
 
   const formik = useFormik({
     initialValues,
     validationSchema: LocationSchema,
-    onSubmit: () => {
-      //
+    onSubmit: async values => {
+      await mutation.mutateAsync(values);
+      return onCancel();
     },
   });
 

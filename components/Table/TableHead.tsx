@@ -1,24 +1,29 @@
-import { objectKeys } from '@/utils';
-import { TableHeaders, TableSort } from './types';
-import * as S from './styles';
+import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowDown } from '@fortawesome/free-solid-svg-icons/faArrowDown';
 import { faArrowUp } from '@fortawesome/free-solid-svg-icons/faArrowUp';
+import { objectKeys } from '@/utils';
+import usePrevious from '@/hooks/usePrevious';
+import { TableHeaders, TableSort } from './types';
+import * as S from './styles';
 
-const TableHead = ({
-  headers,
-  sort,
-  onSort,
-  loading,
-}: {
+interface TableHeadProps {
   headers: TableHeaders;
   sort?: TableSort;
   onSort?: (s: TableSort) => void;
   loading?: boolean;
-}) => {
+}
+
+const TableHead = (props: TableHeadProps) => {
+  const { headers, sort, onSort, loading } = props;
+  const prevProps = usePrevious(props);
+  const [lastSortHeader, setLastSortHeader] = useState<string | null>(null);
+
   const renderSortIcon = (header: keyof TableHeaders) => {
-    if (sort?.type === 'asc') return <FontAwesomeIcon icon={faArrowUp} />;
-    if (sort?.type === 'desc') return <FontAwesomeIcon icon={faArrowDown} />;
+    if (sort?.by === header) {
+      if (sort?.type === 'asc') return <FontAwesomeIcon icon={faArrowUp} />;
+      if (sort?.type === 'desc') return <FontAwesomeIcon icon={faArrowDown} />;
+    }
     return <S.SortHoverIcon icon={faArrowUp} />;
   };
 
@@ -26,9 +31,24 @@ const TableHead = ({
     typeof sortable === 'boolean' ? !sortable : false;
 
   const handleSort = (header: keyof TableHeaders) => {
-    if (!sort || sort.type === 'desc')
+    if (lastSortHeader === header) {
+      switch (sort?.type) {
+        case 'asc':
+          onSort?.({ type: 'desc', by: String(header) });
+          break;
+
+        case 'desc':
+          onSort?.({});
+          break;
+
+        default:
+          onSort?.({ type: 'asc', by: String(header) });
+      }
+    } else {
       onSort?.({ type: 'asc', by: String(header) });
-    else onSort?.({ type: 'desc', by: String(header) });
+    }
+
+    setLastSortHeader(header as string);
   };
 
   return (

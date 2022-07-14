@@ -13,7 +13,7 @@ const TableFooter = ({
   loading,
 }: {
   pagination?: TablePagination;
-  onPagination?: (p: { perPage: string; page: string }) => void;
+  onPagination?: (p: Omit<TablePagination, 'total'>) => void;
   loading?: boolean;
 }) => {
   const pageStart = useMemo(() => {
@@ -42,7 +42,7 @@ const TableFooter = ({
     if (pagination) {
       onPagination?.({
         perPage: pagination.perPage,
-        page: pagination.page + 1,
+        page: String(parseInt(pagination.page, 10) + 1),
       });
     }
   };
@@ -51,7 +51,7 @@ const TableFooter = ({
     if (pagination) {
       onPagination?.({
         perPage: pagination.perPage,
-        page: pagination ? String(parseInt(pagination.page) - 1) : '0',
+        page: pagination ? String(parseInt(pagination.page, 10) - 1) : '0',
       });
     }
   };
@@ -59,7 +59,7 @@ const TableFooter = ({
   const handlePerPage: ReactEventHandler<HTMLSelectElement> = e => {
     if (pagination) {
       onPagination?.({
-        page: pagination.page,
+        page: '1',
         perPage: e.currentTarget.value,
       });
     }

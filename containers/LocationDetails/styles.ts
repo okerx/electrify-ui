@@ -15,6 +15,17 @@ export const CardAction = styled('div')(() => ({
   },
 }));
 
+export const CardHeader = styled('div')(() => ({
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  paddingBottom: '1rem',
+
+  '& > *:not(:last-of-type)': {
+    marginRight: '0.5rem',
+  },
+}));
+
 export const CardStack = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
