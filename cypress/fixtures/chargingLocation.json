@@ -1,0 +1,71 @@
+{
+  "default": {
+    "name": "Alpha",
+    "location": 151832,
+    "postalCode": "44470",
+    "country": "NCL",
+    "chargers": [
+      {
+        "type": "HPC",
+        "status": "CONNECTED",
+        "serialNumber": "98DB28714"
+      }
+    ]
+  },
+
+  "edit": {
+    "name": "Beta",
+    "location": 435623,
+    "postalCode": "54322",
+    "country": "NLD"
+  },
+
+  "newChargers": [
+    {
+      "type": "T52",
+      "status": "NOT_CONNECTED",
+      "serialNumber": "15642GE25LO35"
+    },
+    {
+      "type": "T53C",
+      "status": "REMOVED",
+      "serialNumber": "1564657E26GO35"
+    }
+  ],
+
+  "chargersAfterCreate": [
+    {
+      "type": "T53C",
+      "status": "REMOVED",
+      "serialNumber": "1564657E26GO35"
+    },
+    {
+      "type": "T52",
+      "status": "NOT_CONNECTED",
+      "serialNumber": "15642GE25LO35"
+    },
+    {
+      "type": "HPC",
+      "status": "CONNECTED",
+      "serialNumber": "98DB28714"
+    }
+  ],
+
+  "editChargers": [
+    {
+      "type": "T52",
+      "status": "REMOVED",
+      "serialNumber": "11AAAAAAAAA"
+    },
+    {
+      "type": "T53C",
+      "status": "NOT_CONNECTED",
+      "serialNumber": "22BBBBBBBBB"
+    },
+    {
+      "type": "HPC",
+      "status": "CONNECTED",
+      "serialNumber": "33CCCCCCCCC"
+    }
+  ]
+}

@@ -59,6 +59,7 @@ const DetailsCardEdit = ({ location, onCancel }: DetailsCardEditProps) => {
             <TextField
               label="Name"
               color="secondary"
+              data-test-id="edit-location-name-field"
               disabled={isSubmitting}
               {...getFieldProps('name')}
               {...getErrorProps('name')}
@@ -66,6 +67,7 @@ const DetailsCardEdit = ({ location, onCancel }: DetailsCardEditProps) => {
             <TextField
               label="Location"
               color="secondary"
+              data-test-id="edit-location-location-field"
               disabled={isSubmitting}
               {...getFieldProps('location')}
               {...getErrorProps('location')}
@@ -75,6 +77,7 @@ const DetailsCardEdit = ({ location, onCancel }: DetailsCardEditProps) => {
             <TextField
               label="Postal Code"
               color="secondary"
+              data-test-id="edit-location-postalcode-field"
               disabled={isSubmitting}
               {...getFieldProps('postalCode')}
               {...getErrorProps('postalCode')}
@@ -83,6 +86,7 @@ const DetailsCardEdit = ({ location, onCancel }: DetailsCardEditProps) => {
               label="Country"
               options={AllCountries}
               color="secondary"
+              data-test-id="edit-location-country-select"
               disabled={isSubmitting}
               {...getFieldProps('country')}
               {...getErrorProps('country')}
@@ -93,6 +97,7 @@ const DetailsCardEdit = ({ location, onCancel }: DetailsCardEditProps) => {
               type="button"
               variant="outlined"
               color="error"
+              data-test-id="edit-location-cancel-btn"
               disabled={isSubmitting}
               onClick={onCancel}
             >
@@ -102,11 +107,17 @@ const DetailsCardEdit = ({ location, onCancel }: DetailsCardEditProps) => {
               type="reset"
               variant="outlined"
               color="secondary"
+              data-test-id="edit-location-reset-btn"
               disabled={isSubmitting}
             >
               Reset
             </Button>
-            <Button type="submit" color="secondary" loading={isSubmitting}>
+            <Button
+              type="submit"
+              color="secondary"
+              data-test-id="edit-location-submit-btn"
+              loading={isSubmitting}
+            >
               Save
             </Button>
           </S.CardAction>

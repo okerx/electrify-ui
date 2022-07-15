@@ -81,23 +81,20 @@ const TableFooter = ({
               onChange={handlePerPage}
               disabled={loading}
               color="secondary"
+              data-test-id="table-per-page-select"
               options={[
-                {
-                  value: 10,
-                  title: '10',
-                },
-                {
-                  value: 30,
-                  title: '30',
-                },
-                {
-                  value: 50,
-                  title: '50',
-                },
+                { value: 10, title: '10' },
+                { value: 30, title: '30' },
+                { value: 50, title: '50' },
               ]}
             />
           </div>
-          <div>{`${pageStart}-${pageEnd} of ${pagination.total}`}</div>
+
+          <div>
+            <span data-test-id="table-page-start">{pageStart}</span>-
+            <span data-test-id="table-page-end">{pageEnd}</span> of{' '}
+            <span data-test-id="table-page-total">{pagination.total}</span>
+          </div>
 
           <S.TableFooterNextPrev>
             <button

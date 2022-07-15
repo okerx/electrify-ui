@@ -59,6 +59,7 @@ const TableHead = (props: TableHeadProps) => {
             {!isSortingDisabled(headers[key].sortable) ? (
               <button
                 disabled={loading}
+                data-test-id={`table-sort-${String(key)}`}
                 onClick={() => {
                   handleSort(key);
                 }}

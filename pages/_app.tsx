@@ -4,7 +4,6 @@ import type { AppProps } from 'next/app';
 import { ThemeProvider } from '@emotion/react';
 import { Toaster } from 'react-hot-toast';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { ReactQueryDevtools } from 'react-query/devtools';
 import NextProgress from 'next-progress';
 import { config } from '@fortawesome/fontawesome-svg-core';
 import theme, { GlobalStyles } from '@/theme';
@@ -33,9 +32,9 @@ type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;
 };
 
-const queryClient = new QueryClient();
-
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
+  const queryClient = new QueryClient();
+
   // Use the layout defined at the page level, if available
   const getLayout =
     Component.getLayout ?? (page => <DefaultLayout>{page}</DefaultLayout>);
@@ -55,7 +54,6 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
           {getLayout(<Component {...pageProps} />)}
           <ConfirmDialog />
         </ConfirmProvider>
-        <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </ThemeProvider>
   );

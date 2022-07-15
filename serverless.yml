@@ -1,2 +1,8 @@
 electrify-ui:
   component: "@sls-next/serverless-component@3.7.0"
+  inputs:
+    domain: ["electrify", "oker.dev"]
+    runtime:
+      defaultLambda: "nodejs16.x"
+      apiLambda: "nodejs16.x"
+      imageLambda: "nodejs16.x"

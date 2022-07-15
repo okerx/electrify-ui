@@ -22,7 +22,12 @@ const nextConfig = {
 const nextPlugins = [
   [
     withPWA,
-    { pwa: { dest: 'public', disable: process.env.NODE_ENV !== 'production' } },
+    {
+      pwa: {
+        dest: 'public',
+        disable: true,
+      },
+    },
   ],
   [withBundleAnalyzer],
 ];

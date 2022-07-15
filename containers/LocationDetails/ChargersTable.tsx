@@ -60,6 +60,7 @@ const ChargersTable = ({
 
   return (
     <Table
+      data-test-id="chargers-table"
       items={chargingLocation?.chargers || []}
       customRenderers={{
         lastUpdated: ({ lastUpdated }) => $dayjs(lastUpdated).fromNow(),

@@ -4,7 +4,12 @@ import Head from 'next/head';
 import DashboardLayout from '@/layouts/DashboardLayout';
 import { NextPageWithLayout } from '@/pages/_app';
 import Home from '@/containers/Home';
-import { APIPagination, APISort, ChargingLocation } from '@/api/types';
+import {
+  APIPagination,
+  APISort,
+  ChargingLocation,
+  GetLocationsParams,
+} from '@/api/types';
 import { fetchChargingLocations } from '@/api';
 
 interface IndexPageProps {
@@ -30,7 +35,7 @@ const IndexPage: NextPageWithLayout<IndexPageProps> = ({
 };
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
-  const { by, type, page, perPage } = query;
+  const { by, type, page, perPage } = query as GetLocationsParams;
 
   if (!page || !perPage) {
     return {
@@ -41,11 +46,12 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
     };
   }
 
+  const _sort = !!by && !!type ? { by, type } : {};
+  const _pagination = !!page && !!perPage ? { page, perPage } : {};
+
   const { data, sort, pagination } = await fetchChargingLocations({
-    by: by as string,
-    type: type as string,
-    page: page as string,
-    perPage: perPage as string,
+    ..._sort,
+    ..._pagination,
   });
 
   return {

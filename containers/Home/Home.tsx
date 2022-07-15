@@ -80,6 +80,7 @@ const Home = ({ locations, pagination, sort }: HomeProps) => {
         <S.AddLocationButtonWrapper>
           <Button
             color="secondary"
+            data-test-id="add-location-modal-btn"
             onClick={() => {
               setAddLocationModal(true);
             }}
@@ -98,6 +99,7 @@ const Home = ({ locations, pagination, sort }: HomeProps) => {
           onSort={handleSort}
           onRowClick={navigateToDetails}
           loading={isLoading || isFetching}
+          data-test-id="locations-table"
           headers={{
             id: { title: 'ID', sortable: false },
             name: { title: 'Name' },

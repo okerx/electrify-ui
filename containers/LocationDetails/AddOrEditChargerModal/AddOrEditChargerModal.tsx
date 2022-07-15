@@ -125,6 +125,7 @@ const AddOrEditChargerModal = ({
             <Select
               label="Type"
               color="secondary"
+              data-test-id="add-edit-charger-type-select"
               disabled={isSubmitting}
               options={ChargerTypes}
               {...getFieldProps('type')}
@@ -133,6 +134,7 @@ const AddOrEditChargerModal = ({
             <Select
               label="Status"
               color="secondary"
+              data-test-id="add-edit-charger-status-select"
               disabled={isSubmitting}
               options={ChargerStatusesList}
               {...getFieldProps('status')}
@@ -142,13 +144,19 @@ const AddOrEditChargerModal = ({
           <TextField
             label="Serial Number"
             color="secondary"
+            data-test-id="add-edit-charger-serialnumber-field"
             disabled={isSubmitting}
             fullWidth
             {...getFieldProps('serialNumber')}
             {...getErrorProps('serialNumber')}
           />
           <S.FormActions>
-            <Button type="submit" color="secondary" loading={isSubmitting}>
+            <Button
+              type="submit"
+              color="secondary"
+              data-test-id="add-edit-charger-submit-btn"
+              loading={isSubmitting}
+            >
               Save
             </Button>
           </S.FormActions>

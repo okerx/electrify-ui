@@ -41,9 +41,18 @@ const AddLocationModal = ({ open, setOpen }: AddLocationModalProps) => {
           ['locations', router.query],
           chargingLocations => {
             if (chargingLocations) {
+              const { data, pagination } = chargingLocations;
+              const isOverflow =
+                data.length === parseInt(pagination?.perPage as string);
+              const _data = isOverflow ? data.slice(0, -1) : data;
               return {
                 ...chargingLocations,
-                data: [newLocation, ...chargingLocations.data],
+                pagination: {
+                  page: pagination?.page as string,
+                  perPage: pagination?.perPage as string,
+                  total: String(parseInt(pagination?.total as string, 10) + 1),
+                },
+                data: [newLocation, ..._data],
               };
             }
 
@@ -91,12 +100,14 @@ const AddLocationModal = ({ open, setOpen }: AddLocationModalProps) => {
             <TextField
               label="Name"
               color="secondary"
+              data-test-id="add-location-name-field"
               {...getFieldProps('name')}
               {...getErrorProps('name')}
             />
             <TextField
               label="Location"
               color="secondary"
+              data-test-id="add-location-location-field"
               {...getFieldProps('location')}
               {...getErrorProps('location')}
             />
@@ -105,12 +116,14 @@ const AddLocationModal = ({ open, setOpen }: AddLocationModalProps) => {
             <TextField
               label="Postal Code"
               color="secondary"
+              data-test-id="add-location-postalcode-field"
               {...getFieldProps('postalCode')}
               {...getErrorProps('postalCode')}
             />
             <Select
               label="Country"
               color="secondary"
+              data-test-id="add-location-country-select"
               options={AllCountries}
               {...getFieldProps('country')}
               {...getErrorProps('country')}
@@ -140,6 +153,7 @@ const AddLocationModal = ({ open, setOpen }: AddLocationModalProps) => {
                         <Select
                           label="Type"
                           color="secondary"
+                          data-test-id={`add-location-type-select-${index}`}
                           options={ChargerTypes}
                           {...getFieldProps(`chargers.${index}.type`)}
                           {...getErrorProps(`chargers.${index}.type`)}
@@ -147,6 +161,7 @@ const AddLocationModal = ({ open, setOpen }: AddLocationModalProps) => {
                         <Select
                           label="Status"
                           color="secondary"
+                          data-test-id={`add-location-status-select-${index}`}
                           options={ChargerStatusesList}
                           {...getFieldProps(`chargers.${index}.status`)}
                           {...getErrorProps(`chargers.${index}.status`)}
@@ -156,6 +171,7 @@ const AddLocationModal = ({ open, setOpen }: AddLocationModalProps) => {
                         label="Serial Number"
                         color="secondary"
                         fullWidth
+                        data-test-id={`add-location-serialnumber-field-${index}`}
                         {...getFieldProps(`chargers.${index}.serialNumber`)}
                         {...getErrorProps(`chargers.${index}.serialNumber`)}
                       />
@@ -165,10 +181,11 @@ const AddLocationModal = ({ open, setOpen }: AddLocationModalProps) => {
                 <S.AddChargerButton
                   type="button"
                   variant="text"
+                  data-test-id="add-location-add-charger-btn"
                   onClick={() => {
                     push({
                       type: ChargerTypes[0],
-                      status: ChargerStatusesList[0],
+                      status: ChargerStatusesList[0].value,
                       serialNumber: '',
                     });
                   }}
@@ -189,6 +206,7 @@ const AddLocationModal = ({ open, setOpen }: AddLocationModalProps) => {
               variant="outlined"
               color="secondary"
               size="large"
+              data-test-id="add-location-clear-btn"
               disabled={isSubmitting}
             >
               Clear All
@@ -197,6 +215,7 @@ const AddLocationModal = ({ open, setOpen }: AddLocationModalProps) => {
               type="submit"
               color="secondary"
               size="large"
+              data-test-id="add-location-submit-btn"
               loading={isSubmitting}
             >
               Add Location

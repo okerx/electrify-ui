@@ -20,9 +20,15 @@ const DetailsCard = ({ location, onEdit }: DetailsCardProps) => {
     <S.StyledDetailsCard>
       <S.CardHeader>
         <Typography variant="h3" as="h2">
-          <FontAwesomeIcon icon={faLocationDot} /> {location?.name}
+          <FontAwesomeIcon icon={faLocationDot} />{' '}
+          <span data-test-id="location-details-name">{location?.name}</span>
         </Typography>
-        <Button variant="text" color="secondary" onClick={onEdit}>
+        <Button
+          variant="text"
+          color="secondary"
+          onClick={onEdit}
+          data-test-id="location-details-edit-btn"
+        >
           <FontAwesomeIcon icon={faPenToSquare} /> Edit
         </Button>
       </S.CardHeader>
@@ -37,7 +43,9 @@ const DetailsCard = ({ location, onEdit }: DetailsCardProps) => {
           <Typography fontWeight="bold" color={palette.text.secondary}>
             Location
           </Typography>{' '}
-          <Typography>{location?.location}</Typography>
+          <Typography data-test-id="location-details-location">
+            {location?.location}
+          </Typography>
         </div>
       </S.CardStack>
       <S.CardStack>
@@ -45,7 +53,9 @@ const DetailsCard = ({ location, onEdit }: DetailsCardProps) => {
           <Typography fontWeight="bold" color={palette.text.secondary}>
             Postal Code
           </Typography>{' '}
-          <Typography>{location?.postalCode}</Typography>
+          <Typography data-test-id="location-details-postalcode">
+            {location?.postalCode}
+          </Typography>
         </div>
         <div>
           <Typography fontWeight="bold" color={palette.text.secondary}>
@@ -59,7 +69,9 @@ const DetailsCard = ({ location, onEdit }: DetailsCardProps) => {
           <Typography fontWeight="bold" color={palette.text.secondary}>
             Country
           </Typography>{' '}
-          <Typography>{location?.country}</Typography>
+          <Typography data-test-id="location-details-country">
+            {location?.country}
+          </Typography>
         </div>
       </S.CardStack>
     </S.StyledDetailsCard>

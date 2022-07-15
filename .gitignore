@@ -41,3 +41,10 @@ yarn-error.log*
 # Service worker
 /public/sw*.js
 /public/workbox-*.js
+
+
+# Serverless framework
+/.serverless*
+
+/cypress/downloads/
+/cypress/screenshots/

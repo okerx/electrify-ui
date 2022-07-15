@@ -56,6 +56,7 @@ export const LocationDetails = ({ location }: LocationDetailsProps) => {
         <S.AddChargerButtonWrapper>
           <Button
             color="secondary"
+            data-test-id="add-charger-btn"
             onClick={() => {
               setAddChargerModal(true);
             }}

@@ -34,11 +34,12 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(
             onClick={stopPropagation}
             className="modal-content"
             maxWidth={maxWidth}
+            data-test-id="modal"
             {...props}
           >
             <S.ModalHeader>
               <Typography variant="h3">{title}</Typography>
-              <button onClick={handleClose}>
+              <button onClick={handleClose} data-test-id="modal-close-btn">
                 <FontAwesomeIcon
                   style={{ fontSize: '1.5rem' }}
                   icon={faTimes}
