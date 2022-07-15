@@ -1,34 +1,97 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Electrify UI ⚡️
 
-## Getting Started
+## Overview
 
-First, run the development server:
+This project was built with scalability in mind.
+All the essential UI elements are independent of the main features and tested separately with unit tests
+(although we still have small coverage). The main features, on the other hand, are tested with E2E & Integration tests,
+to make sure they're working well with the API.
+
+
+### About the UI elements
+
+- Each element has a variety of styles by default.
+- With Emotion's `styled` you can easily override the default styles to make the element suits your specific needs.
+- All UI elements built using `React.forwarfRef` to make them easier to control.
+- All the UI inherit the closest native HTML element props.
+- With `as` prop you can specify the HTML tag of any UI element, e.g., <Button as="a">Link</Button> will render an anchor HTML element
+- You can customize some the elements styles using the Theme object.
+
+
+## Tech Stack
+
+- **Language 🔡** TypeScript
+- **Framework ⚛️** React & Next.js
+- **Styling 👩‍🎤** Emotion.js
+- **Icons 🔣** FontAwesome
+- **Data Fetching 📡** Axios & React-Query
+- **Forms Handling & Validation 🕵** Formik & Yup
+- **Unit Testing 🐙** Jest & Testing Library
+- **E2E & Integration Testing 🔄** Cypress
+- **Code Styling 💅** Eslint & Prettier
+
+## Setup dev env
 
 ```bash
-npm run dev
-# or
-yarn dev
+yarn dev # run dev server
+yarn build # build for production
+yarn build:analyze # analyze dependencies with Webpack Bundle Analyzer
+yarn start # run production server (you need to run `yarn build` first)
+yarn lint # lining
+yarn test:unit # run unit tests in watch mode 
+yarn test:unit:ci # run unit tests in CI mode (exit the process on finish)
+yarn cypress # run Cypress E2E tests in visual mode
+yarn cypress:headless # run Cypress E2E tests in headless mode (for CI env)
+yarn e2e # run Cypress visual mode with a dev server
+yarn e2e:headless # run Cypress headless mode with a dev server
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Project Structure
+This project follows Next.js structure. Therefore, there's no `src` folder, all folder belong to the root.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+```bash
+~ root
+  # This is the entry point of our project.
+  # This folder structure is used by Next.js for routing.
+  -> pages
+  
+  # contains the features components.
+  # typically, each container belongs to a page (route)
+  -> containers
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+  # contains all the common components.
+  # basically, the UI components.
+  -> componets 
+  
+  # Layouts are wrapper components for our pages.
+  -> layouts
+  
+  # The app theme definition. e.g., palette, typography, and responsive breakpoints. 
+  -> theme
+  
+  # contains all the API-related types & functions
+  # (it could be structured in more efficient way)
+  -> api
+  
+  # Providers take advantage of React Context API to solve common issues.
+  # Currently, we have the ConfirmProvider which is an easy way to use confirm dialog in react similar to the native `window.confirm`
+  -> providers
+  
+  # Cypress config & E2E Tests, currently we have a spec for each page
+  -> cypress
+  
+  # set of common helper functions
+  -> utils
+  
+  # set of common helper React hooks
+  -> hooks 
+  
+  # common constants
+  -> constatnts
+  
+  # for static assets to be served on the root
+  -> public
+  
+  # Yup validation schemas used by Formik for form validation 
+  -> schemas
+```
