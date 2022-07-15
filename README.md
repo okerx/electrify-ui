@@ -2,7 +2,7 @@
 
 ## Live Demo
 This app is configured to work on [AWS Lambda@Edge](https://aws.amazon.com/lambda/edge/) out-of-box.
-However, it's now deplyed on Vercel here https://electrify-ui.vercel.app/
+However, it's now deplyed on Vercel at https://electrify-ui.vercel.app/
 
 ## Overview
 
