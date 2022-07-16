@@ -18,7 +18,7 @@ to make sure they're working well with the API.
 - With Emotion's `styled` you can easily override the default styles to make the element suits your specific needs.
 - All UI elements built using `React.forwarfRef` to make them easier to control.
 - All the UI inherit the closest native HTML element props.
-- With `as` prop you can specify the HTML tag of any UI element, e.g., <Button as="a">Link</Button> will render an anchor HTML element
+- With `as` prop you can specify the HTML tag of any UI element, e.g., `<Button as="a">Link</Button>` will render an anchor HTML element
 - You can customize some the elements styles using the Theme object.
 
 
