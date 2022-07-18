@@ -2,10 +2,11 @@ import { ReactEventHandler, useMemo } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons/faArrowLeft';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons/faArrowRight';
-import * as S from './styles';
-import { TablePagination } from './types';
 import Select from '@/components/Select';
 import Spinner from '@/components/Spinner';
+import * as S from './styles';
+import { TablePagination } from './types';
+import { PER_PAGE_OPTIONS } from './constants';
 
 const TableFooter = ({
   pagination,
@@ -82,10 +83,12 @@ const TableFooter = ({
               disabled={loading}
               color="secondary"
               data-test-id="table-per-page-select"
+              defaultValue={pagination.perPage}
               options={[
-                { value: 10, title: '10' },
-                { value: 30, title: '30' },
-                { value: 50, title: '50' },
+                ...PER_PAGE_OPTIONS,
+                PER_PAGE_OPTIONS.includes(pagination.perPage)
+                  ? null
+                  : pagination.perPage,
               ]}
             />
           </div>

@@ -3,7 +3,7 @@ import { useQuery } from 'react-query';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBolt } from '@fortawesome/free-solid-svg-icons/faBolt';
 import { faPlus } from '@fortawesome/free-solid-svg-icons/faPlus';
-import { chargingLocationDetailsQuery, handleError } from '@/api';
+import { chargingLocationDetailsQuery, handleClientError } from '@/api';
 import { Charger, ChargingLocation } from '@/api/types';
 import Typography from '@/components/Typography';
 import Button from '@/components/Button';
@@ -29,7 +29,7 @@ export const LocationDetails = ({ location }: LocationDetailsProps) => {
     {
       keepPreviousData: true,
       refetchOnMount: false,
-      onError: handleError,
+      onError: handleClientError,
       initialData: location,
     },
   );

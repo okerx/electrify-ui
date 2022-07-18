@@ -10,7 +10,7 @@ import Typography from '@/components/Typography';
 import Select from '@/components/Select';
 import { AllCountries, ChargerStatusesList, ChargerTypes } from '@/constants';
 import { LocationSchema } from '@/schemas';
-import { createLocation, handleError } from '@/api';
+import { createLocation, handleClientError } from '@/api';
 import {
   APIError,
   APIResponse,
@@ -60,7 +60,7 @@ const AddLocationModal = ({ open, setOpen }: AddLocationModalProps) => {
           },
         );
       },
-      onError: handleError,
+      onError: handleClientError,
     },
   );
 

@@ -6,7 +6,7 @@ import { faPenToSquare } from '@fortawesome/free-solid-svg-icons/faPenToSquare';
 import { faTrashCan } from '@fortawesome/free-solid-svg-icons/faTrashCan';
 import { $dayjs, toaster } from '@/utils';
 import { Charger, ChargingLocation } from '@/api/types';
-import { deleteCharger, handleError } from '@/api';
+import { deleteCharger, handleClientError } from '@/api';
 import { useConfirm } from '@/providers/ConfirmProvider';
 import Typography from '@/components/Typography';
 import Table from '@/components/Table';
@@ -45,7 +45,7 @@ const ChargersTable = ({
           },
         );
       },
-      onError: handleError,
+      onError: handleClientError,
     },
   );
 

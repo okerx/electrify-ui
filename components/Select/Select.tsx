@@ -25,14 +25,18 @@ const Select = forwardRef<HTMLSelectElement, SelectProps>(
         <S.SelectWrapper>
           <select ref={ref} id={inputId} {...props}>
             {options.map(option => {
-              const title = typeof option === 'string' ? option : option.title;
-              const value = typeof option === 'string' ? option : option.value;
+              if (option) {
+                const title =
+                  typeof option === 'string' ? option : option.title;
+                const value =
+                  typeof option === 'string' ? option : option.value;
 
-              return (
-                <option key={String(value)} value={String(value)}>
-                  {title}
-                </option>
-              );
+                return (
+                  <option key={String(value)} value={String(value)}>
+                    {title}
+                  </option>
+                );
+              }
             })}
           </select>
           {label && <label htmlFor={inputId}>{label}</label>}

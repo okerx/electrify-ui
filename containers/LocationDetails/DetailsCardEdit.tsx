@@ -6,7 +6,7 @@ import Select from '@/components/Select';
 import Button from '@/components/Button';
 import { AllCountries } from '@/constants';
 import { LocationSchema } from '@/schemas';
-import { handleError, updateChargingLocation } from '@/api';
+import { handleClientError, updateChargingLocation } from '@/api';
 import * as S from './styles';
 
 interface DetailsCardEditProps {
@@ -27,7 +27,7 @@ const DetailsCardEdit = ({ location, onCancel }: DetailsCardEditProps) => {
     onSuccess: data => {
       queryClient.setQueryData(['locationDetails', data.id], data);
     },
-    onError: handleError,
+    onError: handleClientError,
   });
 
   const formik = useFormik({

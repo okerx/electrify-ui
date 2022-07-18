@@ -15,7 +15,7 @@ import TextField from '@/components/TextField';
 import Button from '@/components/Button';
 import * as S from './styles';
 import { useMutation, useQueryClient } from 'react-query';
-import { createCharger, handleError, updateCharger } from '@/api';
+import { createCharger, handleClientError, updateCharger } from '@/api';
 
 interface AddOrEditChargerModalProps extends Omit<ModalProps, 'children'> {
   chargerToEdit?: Charger | null;
@@ -79,7 +79,7 @@ const AddOrEditChargerModal = ({
         : createCharger(locationId as string, params),
     {
       onSuccess: editModel ? onUpdateSuccess : onCreateSuccess,
-      onError: handleError,
+      onError: handleClientError,
     },
   );
 

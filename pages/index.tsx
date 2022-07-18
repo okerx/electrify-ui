@@ -11,6 +11,7 @@ import {
   GetLocationsParams,
 } from '@/api/types';
 import { fetchChargingLocations } from '@/api';
+import { AxiosError } from 'axios';
 
 interface IndexPageProps {
   locations: ChargingLocation[];
@@ -49,14 +50,33 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   const _sort = !!by && !!type ? { by, type } : {};
   const _pagination = !!page && !!perPage ? { page, perPage } : {};
 
-  const { data, sort, pagination } = await fetchChargingLocations({
-    ..._sort,
-    ..._pagination,
-  });
+  try {
+    const { data, sort, pagination } = await fetchChargingLocations({
+      ..._sort,
+      ..._pagination,
+    });
 
-  return {
-    props: { locations: data, pagination, sort },
-  };
+    return {
+      props: { locations: data, pagination, sort },
+    };
+  } catch (e) {
+    const error = e as AxiosError<{ message?: string | string[] }>;
+    const statusCode = error.response?.status;
+    const statusText = error.response?.statusText;
+    const message = Array.isArray(error.response?.data.message)
+      ? error.response?.data.message[0]
+      : error.response?.data.message;
+
+    if (statusCode && statusCode < 500 && message) {
+      return {
+        props: {
+          error: { title: `${statusText} - ${message}`, statusCode },
+        },
+      };
+    }
+
+    throw new Error('Internal Server Error', { cause: error });
+  }
 };
 
 IndexPage.getLayout = function getLayout(page: ReactElement) {

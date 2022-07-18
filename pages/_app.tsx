@@ -15,6 +15,7 @@ import '@fontsource/open-sans/700.css';
 import DefaultLayout from '@/layouts/DefaultLayout';
 import ConfirmProvider, { ConfirmDialog } from '@/providers/ConfirmProvider';
 import HeadTags from '@/components/HeadTags';
+import Error from 'next/error';
 
 /**
  * By default, Fontawesome will automatically add the accompanying CSS
@@ -51,7 +52,14 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
       <Toaster position="top-right" />
       <QueryClientProvider client={queryClient}>
         <ConfirmProvider>
-          {getLayout(<Component {...pageProps} />)}
+          {pageProps.error ? (
+            <Error
+              statusCode={pageProps.error.statusCode}
+              title={pageProps.error.title}
+            />
+          ) : (
+            getLayout(<Component {...pageProps} />)
+          )}
           <ConfirmDialog />
         </ConfirmProvider>
       </QueryClientProvider>

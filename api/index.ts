@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import {
   APIResponse,
   Charger,
@@ -98,7 +98,8 @@ export const deleteCharger = async (locationId: string, chargerId: string) => {
   await axiosClient.delete(`/chargers/${locationId}/${chargerId}`);
 };
 
-export const handleError = (error: any): void => {
+export const handleClientError = (e: unknown): void => {
+  const error = e as AxiosError<{ message?: string | string[] }>;
   const message = error?.response?.data?.message;
   if (Array.isArray(message)) {
     message.forEach(msg => {
@@ -109,4 +110,23 @@ export const handleError = (error: any): void => {
   } else {
     toaster.error('Something went wrong!');
   }
+};
+
+export const handeServerError = (e: unknown) => {
+  const error = e as AxiosError<{ message?: string | string[] }>;
+  const statusCode = error.response?.status;
+  const statusText = error.response?.statusText;
+  const message = Array.isArray(error.response?.data.message)
+    ? error.response?.data.message[0]
+    : error.response?.data.message;
+
+  if (statusCode && statusCode < 500 && message) {
+    return {
+      props: {
+        error: { statusCode, title: `${statusText} - ${message}` },
+      },
+    };
+  }
+
+  throw new Error('Internal Server Error', { cause: error });
 };

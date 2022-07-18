@@ -6,7 +6,7 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons/faPlus';
 import Typography from '@/components/Typography';
 import Button from '@/components/Button';
 import Table from '@/components/Table';
-import { chargingLocationsQuery, handleError } from '@/api';
+import { chargingLocationsQuery, handleClientError } from '@/api';
 import { $dayjs } from '@/utils';
 import {
   APIPagination,
@@ -38,7 +38,7 @@ const Home = ({ locations, pagination, sort }: HomeProps) => {
     {
       keepPreviousData: true,
       refetchOnMount: false,
-      onError: handleError,
+      onError: handleClientError,
       initialData: { data: locations, sort, pagination },
     },
   );
