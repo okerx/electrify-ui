@@ -24,7 +24,7 @@ export type TypographySupportedTags =
 
 export interface TypographyProps extends HTMLAttributes<HTMLElement> {
   variant?: TypographyVariant;
-  component?: ElementType<any>;
+  component?: ElementType;
   paragraph?: boolean;
   fontWeight?: CSSProperties['fontWeight'];
   color?: CSSProperties['color'];

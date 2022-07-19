@@ -1,3 +1,4 @@
+import { GetServerSidePropsResult } from 'next';
 import axios, { AxiosError } from 'axios';
 import {
   APIResponse,
@@ -112,7 +113,7 @@ export const handleClientError = (e: unknown): void => {
   }
 };
 
-export const handeServerError = (e: unknown) => {
+export const handeServerError = (e: unknown): GetServerSidePropsResult<any> => {
   const error = e as AxiosError<{ message?: string | string[] }>;
   const statusCode = error.response?.status;
   const statusText = error.response?.statusText;

@@ -10,7 +10,7 @@ import {
   ChargingLocation,
   GetLocationsParams,
 } from '@/api/types';
-import { fetchChargingLocations } from '@/api';
+import { fetchChargingLocations, handeServerError } from '@/api';
 import { AxiosError } from 'axios';
 
 interface IndexPageProps {
@@ -27,7 +27,7 @@ const IndexPage: NextPageWithLayout<IndexPageProps> = ({
   return (
     <>
       <Head>
-        <title>Electrify - Charging Locations</title>
+        <title>Charging Locations | Electrify</title>
       </Head>
 
       <Home pagination={pagination} sort={sort} locations={locations} />
@@ -60,22 +60,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
       props: { locations: data, pagination, sort },
     };
   } catch (e) {
-    const error = e as AxiosError<{ message?: string | string[] }>;
-    const statusCode = error.response?.status;
-    const statusText = error.response?.statusText;
-    const message = Array.isArray(error.response?.data.message)
-      ? error.response?.data.message[0]
-      : error.response?.data.message;
-
-    if (statusCode && statusCode < 500 && message) {
-      return {
-        props: {
-          error: { title: `${statusText} - ${message}`, statusCode },
-        },
-      };
-    }
-
-    throw new Error('Internal Server Error', { cause: error });
+    return handeServerError(e);
   }
 };
 

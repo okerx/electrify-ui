@@ -4,7 +4,7 @@ import { NextPageWithLayout } from '@/pages/_app';
 import DashboardLayout from '@/layouts/DashboardLayout';
 import { ChargingLocation } from '@/api/types';
 import LocationDetails from '@/containers/LocationDetails';
-import { fetchChargingLocationDetails } from '@/api';
+import { fetchChargingLocationDetails, handeServerError } from '@/api';
 import { GetServerSideProps } from 'next';
 
 interface LocationDetailsPageProps {
@@ -17,7 +17,7 @@ const LocationDetailsPage: NextPageWithLayout<LocationDetailsPageProps> = ({
   return (
     <>
       <Head>
-        <title>Electrify - Charging Locations</title>
+        <title>{location.name} | Electrify</title>
       </Head>
 
       <LocationDetails location={location} />
@@ -33,9 +33,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
       props: { location },
     };
   } catch (e) {
-    return {
-      notFound: true,
-    };
+    return handeServerError(e);
   }
 };
 
