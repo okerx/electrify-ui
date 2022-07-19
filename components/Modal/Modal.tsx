@@ -1,4 +1,4 @@
-import { forwardRef, MouseEventHandler, useRef } from 'react';
+import { forwardRef, MouseEventHandler, useLayoutEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { CSSTransition } from 'react-transition-group';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -17,6 +17,16 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(
     const stopPropagation: MouseEventHandler = e => {
       e.stopPropagation();
     };
+
+    // disable body scroll on open
+    useLayoutEffect(() => {
+      const body = document.querySelector('body');
+      if (open) {
+        if (body) body.style.overflow = 'hidden';
+      } else {
+        if (body) body.style.overflow = 'auto';
+      }
+    }, [open]);
 
     if (typeof window === 'undefined') return null;
 
