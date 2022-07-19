@@ -11,7 +11,7 @@ const spacing: Theme['spacing'] = (val1 = 1, val2, val3, val4) => {
   let s = '';
 
   [val1, val2, val3, val4].forEach((val, index) => {
-    if (val) {
+    if (val !== undefined) {
       const value =
         typeof val === 'number' ? `${SCALING_FACTOR * val}rem` : val;
 
