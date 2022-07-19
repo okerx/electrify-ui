@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
 import { keyframes } from '@emotion/react';
-import { CommonColorVariants } from '@/theme/types';
 
 const borderRotate = keyframes`
   0% {
@@ -45,7 +44,7 @@ export const StyledSpinner = styled('span')<{
       display: 'block',
 
       circle: {
-        stroke: 'currentcolor',
+        stroke: 'currentColor',
         strokeDasharray: '80px, 200px',
         strokeDashoffset: 0,
         animation: `1.4s ease-in-out 0s infinite normal none running ${circleRotate}`,

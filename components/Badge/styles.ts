@@ -7,6 +7,7 @@ export const BadgeWrapper = styled('div')<{
   $size: BadgeSize;
 }>(({ theme, $size, $color }) => {
   const sizes = {
+    // TODO: add multi-size styles
     small: {},
     medium: {},
     large: {},
@@ -25,11 +26,11 @@ export const BadgeWrapper = styled('div')<{
   };
 });
 
-export const StyledBadge = styled('span')(() => ({
+export const StyledBadge = styled('span')(({ theme }) => ({
   overflow: 'hidden',
   textOverflow: 'ellipsis',
-  paddingRight: '0.75rem',
-  paddingLeft: '0.75rem',
+  paddingRight: theme.spacing(3),
+  paddingLeft: theme.spacing(3),
   whiteSpace: 'nowrap',
-  margin: 'auto',
+  margin: theme.spacing('auto'),
 }));

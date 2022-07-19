@@ -6,7 +6,7 @@ export const FormStack = styled('div')(({ theme }) => ({
   flexWrap: 'wrap',
 
   '& > *': {
-    paddingBottom: '0.5rem',
+    paddingBottom: theme.spacing(2),
     width: '100%',
     'input, select': {
       width: '100%',
@@ -15,13 +15,13 @@ export const FormStack = styled('div')(({ theme }) => ({
 
   [`@media only screen and (min-width: ${theme.breakpoints.sm}px)`]: {
     '& > *': {
-      width: 'calc(50% - 0.5rem)',
+      width: `calc(50% - ${theme.spacing(2)})`,
 
       '&:first-of-type': {
-        marginRight: '0.5rem',
+        marginRight: theme.spacing(2),
       },
       '&:last-of-type': {
-        marginLeft: '0.5rem',
+        marginLeft: theme.spacing(2),
       },
     },
   },

@@ -10,7 +10,7 @@ export const HomeHeader = styled('div')(() => ({
 export const AddLocationButtonWrapper = styled('div')(({ theme }) => ({
   [`@media only screen and (max-width: ${theme.breakpoints.sm}px)`]: {
     width: '100%',
-    marginTop: '1rem',
+    marginTop: theme.spacing(4),
 
     button: {
       width: '100%',
@@ -18,6 +18,6 @@ export const AddLocationButtonWrapper = styled('div')(({ theme }) => ({
   },
 }));
 
-export const TableWrapper = styled('div')(() => ({
-  paddingTop: '1rem',
+export const TableWrapper = styled('div')(({ theme }) => ({
+  paddingTop: theme.spacing(4),
 }));

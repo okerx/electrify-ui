@@ -60,15 +60,15 @@ export const StyledButton = styled('button')<{
 
   const buttonSizes = {
     small: {
-      padding: '4px 5px',
+      padding: theme.spacing(1, 1.25),
       fontSize: '0.8125rem',
     },
     medium: {
-      padding: '6px 8px',
+      padding: theme.spacing(1.5, 2),
       fontSize: '0.875rem',
     },
     large: {
-      padding: '8px 11px',
+      padding: theme.spacing(2, 2.75),
       fontSize: '0.9375rem',
     },
   };

@@ -66,3 +66,19 @@ export interface Typography {
   overline: TypographyProps;
   button: TypographyProps;
 }
+
+export interface Breakpoints {
+  xs: number;
+  sm: number;
+  md: number;
+  lg: number;
+  xl: number;
+}
+
+type SpacingValue = number | 'auto';
+export type Spacing = (
+  val1?: SpacingValue,
+  val2?: SpacingValue,
+  val3?: SpacingValue,
+  val4?: SpacingValue,
+) => string;

@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-export const ModalWrapper = styled('div')(() => ({
+export const ModalWrapper = styled('div')(({ theme }) => ({
   position: 'fixed',
   height: '100vh',
   width: '100vw',
@@ -11,7 +11,7 @@ export const ModalWrapper = styled('div')(() => ({
   zIndex: 333,
   display: 'flex',
   overflow: 'auto',
-  padding: '4rem 1rem',
+  padding: theme.spacing(16, 4),
   '&.modal-enter .modal-content': { opacity: 0, transform: 'scale(0.9)' },
   '&.modal-enter-active .modal-content': {
     opacity: 1,
@@ -34,9 +34,9 @@ export const StyledModal = styled('div')<{ maxWidth: number }>(
     boxShadow:
       '0 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%),0px 1px 3px 0px rgb(0 0 0 / 12%)',
     height: 'fit-content',
-    margin: 'auto',
+    margin: theme.spacing('auto'),
     borderRadius: '10px',
-    padding: '1rem 1.5rem 0',
+    padding: theme.spacing(4, 6, 0),
   }),
 );
 
@@ -48,6 +48,6 @@ export const ModalHeader = styled('div')({
   button: { width: '30px', height: '30px' },
 });
 
-export const ModalBody = styled('div')({
-  padding: '1rem 0',
-});
+export const ModalBody = styled('div')(({ theme }) => ({
+  padding: theme.spacing(4, 0),
+}));

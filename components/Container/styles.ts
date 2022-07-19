@@ -1,14 +1,13 @@
 import styled from '@emotion/styled';
-import theme from '@/theme';
 
-export const StyledContainer = styled('div')(() => ({
+export const StyledContainer = styled('div')(({ theme }) => ({
   width: '100%',
   maxWidth: '1380px',
-  paddingLeft: '1rem',
-  paddingRight: '1rem',
+  paddingLeft: theme.spacing(4),
+  paddingRight: theme.spacing(4),
 
   [`@media only screen and (min-width: ${theme.breakpoints.sm}px)`]: {
-    paddingLeft: '1.5rem',
-    paddingRight: '1.5rem',
+    paddingLeft: theme.spacing(6),
+    paddingRight: theme.spacing(6),
   },
 }));

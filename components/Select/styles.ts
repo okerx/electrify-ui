@@ -15,7 +15,7 @@ export const StyledSelect = styled('div')<{
   const withLabelStyles: any = $withLabel
     ? {
         appearance: 'none',
-        padding: '1rem 0.7rem 0.2rem',
+        padding: theme.spacing(4, 2.8, 0.8),
         background: 'transparent',
         backgroundImage:
           "url(\"data:image/svg+xml;utf8,<svg fill='rgba(0, 0, 0, 0.6)' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>\")",
@@ -37,8 +37,8 @@ export const StyledSelect = styled('div')<{
       top: '1%',
       transform: 'translateY(-50%) scale(.7)',
       color: mainColor,
-      padding: '0 0.3rem',
-      margin: '0 0.5rem',
+      padding: theme.spacing(0, 1.2),
+      margin: theme.spacing(0, 2),
       transition: '.1s ease-out',
       transformOrigin: 'left',
       pointerEvents: 'none',
@@ -94,7 +94,7 @@ export const SelectHelperText = styled('span')<{ $error: boolean }>(
     lineHeight: 1.66,
     letterSpacing: '0.03333em',
     textAlign: 'left',
-    padding: '3px 14px 0px',
+    padding: theme.spacing(0.75, 3.5, 0),
     minHeight: '1.435rem',
   }),
 );

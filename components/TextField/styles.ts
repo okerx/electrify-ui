@@ -25,8 +25,8 @@ export const StyledTextField = styled('div')<{
       top: '50%',
       transform: 'translateY(-50%)',
       color: mainColor,
-      padding: '0 0.3rem',
-      margin: '0 0.5rem',
+      padding: theme.spacing(0, 1.2),
+      margin: theme.spacing(0, 2),
       transition: '.1s ease-out',
       transformOrigin: 'left',
       pointerEvents: 'none',
@@ -38,7 +38,7 @@ export const StyledTextField = styled('div')<{
       outline: 'none',
       border: `1px solid ${mainColor}`,
       borderRadius: '5px',
-      padding: '1rem 0.7rem 0.2rem',
+      padding: theme.spacing(4, 2.8, 0.8),
       color: 'rgba(0, 0, 0, 0.7)',
       transition:
         'color 200ms cubic-bezier(0, 0, 0.2, 1) 0ms,' +
@@ -84,7 +84,7 @@ export const TextFieldHelperText = styled('span')<{ $error: boolean }>(
     lineHeight: 1.66,
     letterSpacing: '0.03333em',
     textAlign: 'left',
-    padding: '3px 14px 0px',
+    padding: theme.spacing(0.75, 3.5, 0),
     minHeight: '1.435rem',
   }),
 );

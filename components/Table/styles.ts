@@ -33,7 +33,7 @@ export const StyledTable = styled('table')({
 export const StyledTableHead = styled('thead')(({ theme }) => ({
   tr: {
     height: '64px',
-    padding: '0 24px',
+    padding: theme.spacing(0, 8),
     borderBottom: '1px solid',
     borderBottomColor: theme.palette.divider,
     th: {
@@ -66,22 +66,22 @@ export const StyledTableBody = styled('tbody')<{ $clickableRow: boolean }>(
   }),
 );
 
-export const StyledTableFooter = styled('footer')({
+export const StyledTableFooter = styled('footer')(({ theme }) => ({
   width: '100%',
   display: 'flex',
   flexWrap: 'wrap',
   alignItems: 'center',
   justifyContent: 'flex-end',
-  padding: '0.3em 1.5rem',
+  padding: theme.spacing(1.2, 6),
 
   '& > *:not(:last-of-type)': {
-    marginRight: '1rem',
+    marginRight: theme.spacing(4),
   },
-});
+}));
 
 export const TableFooterNextPrev = styled('div')(({ theme }) => ({
   '& > button': {
-    padding: '0.5rem',
+    padding: theme.spacing(2),
     color: 'rgba(0, 0, 0, .87)',
 
     '&:first-of-type': {

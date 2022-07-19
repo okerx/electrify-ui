@@ -1,18 +1,15 @@
 import { Theme } from '@emotion/react';
 import palette from './palette';
 import typography from './typography';
+import spacing from './spacing';
+import breakpoints from './breakpoints';
 
 const theme: Theme = {
+  direction: 'ltr',
   palette,
   typography,
-  direction: 'ltr',
-  breakpoints: {
-    xs: 0,
-    sm: 600,
-    md: 900,
-    lg: 1200,
-    xl: 1536,
-  },
+  breakpoints,
+  spacing,
 };
 
 export default theme;
