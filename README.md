@@ -36,6 +36,8 @@ to make sure they're working well with the API.
 
 ## Setup dev env
 
+Create a `.env.local` file that contains the env variables from `.env.example`. Only the variable `API_URL` is required to run the app. the other Cypress vars are only required for running E2E tests, I will share those secrets via email.
+
 ```bash
 yarn dev # run dev server
 yarn build # build for production
